@@ -1,121 +1,422 @@
-<!DOCTYPE html> <!-- esta etiqueta indica al navegador que es html5-->
-<html lang="es"> <!--configuración del lenguaje-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAMBA Chatbot</title>
+    <style>
+        /* Estilos del widget del chatbot */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+        }
 
-    <!--etiquetas de configuraciones para el navegador-->
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--va a ser una página responsive-->
-        <title>Restauración Aumentada</title>
-        <!--favicon ícono-->
-        <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-        <script src="https://kit.fontawesome.com/12ff1418cb.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="./css/estilos.css">
-        
-    </head>
-    <body id="body">
-        <header class="header">
-            <a href="./index.html">
-                <img src="./assets/img/logo.png" alt="Logo de Rodrigo Alcon Quintanilha" width="95px" class="boxLogo">
-            </a>
-            <nav class="navHeader">
-                <ul class="ulHeader">
-                    <li class="listaItem"><a class="linkHeader" href="./index.html">Inicio</a></li>
-                    <li class="listaItem"><a class="linkHeader" href="#proyecto">Proyecto</a></li>
-                    <li class="listaItem"><a class="linkHeader" href="./pages/galeria.html">Realidad Aumentada</a></li>
-                    <li class="listaItem"><a class="linkHeader" href="./pages/contacto.html#sobre">Sobre</a></li>
-                    <li class="listaItem"><a class="linkHeader" href="./pages/contacto.html#contacto">Contacto</a></li>
-                    <li class="listaItem"><a class="linkHeader" href="https://museomoderno.org/" target="_blank"><img class="logoModerno" src="./assets/img/museo-moderno-footer.jpg"></a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            <h1>Restauración Aumentada</h1>
-            <section class="principalIndex">
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            background-color: #4a6ee0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
 
-            </section>
-            
-            
-                <section id="proyecto" class="boxSobre">    
-                    <!--<h2>Proyecto</h2>-->
-                        <h3>Restauración Aumentada: una experiencia interactiva para descubrir la conservación del 
-                            patrimonio cultural</h3>
-                        
-                        <p class="textJustified">
-                            <span class="interlineado">Se trata de una experiencia de realidad aumentada diseñada para dispositivos móviles, que permite visualizar en tiempo real el estado previo a la restauración de las obras exhibidas en el museo y acceder, además, a contenido digital exclusivo que revela detalles de su estado antes de ser intervenidas. El contenido digital podrá ser accedido utilizando simplemente la cámara de un smartphone.</span>
-                        </p> 
-                        
-                        <p class="textJustified">    
-                            <span class="interlineado">La realidad aumentada aplicada a la conservación de obras de arte permite visibilizar las tareas realizadas por el conservador-restaurador. Los procesos de conservación podrán ser explorados de manera visual y educativa a través de imágenes tomadas con radiaciones ultravioleta e infrarroja, así como información sobre las restauraciones realizadas, como limpiezas, corrección de deformaciones, reintegraciones cromáticas, reparaciones estructurales y reemplazo de tecnologías obsoletas.</span>
-                        </p>
-                        
-                        <p class="textJustified">    
-                            <span class="interlineado">Dicha propuesta nace del interés por divulgar las disciplinas de la conservación y restauración de bienes culturales, acercándolas al público general mediante experiencias interactivas. <span class="fuenteCursiva">Restauración Aumentada </span>es una de las primeras experiencias en ofrecer una visión detallada sobre los procesos de restauración de una forma accesible y visualmente enriquecedora. Además, se podrá consultar un glosario completo y actualizado sobre términos de conservación y restauración.</span>
-                        </p>
-                        
-                        <div class="boxIndex">
-                            <a href="./pages/galeria.html" >
-                                <h4>Realidad</h4>
-                                    <div>
-                                        <h4>Aumentada</h4>
-                                    </div>  
-                            </a> 
-                        </div>
+        .chatbot-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
 
-                </section>
+        .chatbot-button img {
+            width: 30px;
+            height: 30px;
+            filter: brightness(0) invert(1);
+        }
 
-                <div>
-                    <a href="#body"> 
-                        <!--<img src="" alt="arriba">-->
-                        <!--<i class="fa-regular fa-hand-pointer"></i>-->
-                        <!--<i class="fa-regular fa-circle-up"></i>-->
-                        <i class="fa-solid fa-arrow-turn-up"></i>
-                    </a>
-                </div>
-        </main>
-<hr>
-        <footer class="footer">
-            <div>
-            <a href="./index.html">
-                <img src="./assets/img/logo.png" alt="Logo de Rodrigo Alcon Quintanilha" width="75px" class="boxLogo">
-            </a>
+        .chatbot-container {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chatbot-header {
+            background-color: #4a6ee0;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: #4a6ee0;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: #f0f2f5;
+            color: #333;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chatbot-input-container {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 24px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chatbot-send {
+            background-color: #4a6ee0;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chatbot-send:hover {
+            background-color: #3a5ec0;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #999;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chatbot-container {
+                width: 300px;
+                height: 450px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Widget del chatbot -->
+    <div class="chatbot-widget">
+        <div class="chatbot-button" id="chatbotToggle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+        </div>
+        <div class="chatbot-container" id="chatbotContainer">
+            <div class="chatbot-header">
+                <div class="chatbot-title">MAMBA ChatBot</div>
+                <button class="chatbot-close" id="chatbotClose">×</button>
             </div>
-            <div class=".boxContacto">
-                <section>
-                <address>
-                <p class="fuente15px"><span class="fuenteNegrita">Dirección:</span> Av. San Juan 350. San Telmo. Buenos Aires. C1147AAO. </p>
-                <p class="fuente15px"><span class="fuenteNegrita">Teléfono:</span> +54 011 4361-6919. </p>
-                <p class="fuente15px"><span class="fuenteNegrita">Correo electrónico:</span><a
-                    href="mailto:laboconservacion@gmail.com"> laboconservacion@gmail.com</a> </p>
-                </address>
-                </section>
-                <p class="fuenteNegrita fuente10px">Todos los derechos reservados 2025 </p>
-            <section class="footerLogos">
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot-message">
+                    ¡Hola! Soy MAMBA. ¿En qué te puedo ayudar?
                 </div>
-                    <img src="./assets/img/logoMecenazgo.png" alt="Logo de Rodrigo Alcon Quintanilha" width="95px">
-                <div>    
-                </div>
-                    <img src="./assets/img/logoSantander.png" alt="Logo de Rodrigo Alcon Quintanilha" width="95px">
-                <div>
-                </div>
-                    <img src="./assets/img/logoBsAs.png" alt="Logo de Rodrigo Alcon Quintanilha" width="60px">
-                <div>
-                </div>
-                    <img src="./assets/img/logoModerno.png" alt="Logo de Rodrigo Alcon Quintanilha" width="57px">
-                <div>
-                </div>
-                <!--<div>
-                    <a href="https://www.instagram.com/arrobaescrito/" target="_blank">
-                    <i class="fa-brands fa-instagram"></i>
-                    </a>
-                </div>-->
-            </section>
+            </div>
+            <div class="chatbot-input-container">
+                <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Escribe tu consulta...">
+                <button class="chatbot-send" id="chatbotSend">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración del chatbot
+        const chatbotConfig = {
+            webhookUrl: 'https://nonelementary-gentler-flora.ngrok-free.dev/webhook-test/07fd3968-f6d6-441e-9a0b-c844f3b72887', // Reemplaza con tu webhook de N8N
+            sessionId: generateSessionId(),
+            autoOpen: true, // Abrir automáticamente después de unos segundos
+            autoOpenDelay: 5000, // 5 segundos
+            welcomeMessage: '¡Hola! Soy MAMBA. ¿En qué te puedo ayudar?'
+        };
+
+        // Elementos del DOM
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatbotContainer = document.getElementById('chatbotContainer');
+        const chatbotClose = document.getElementById('chatbotClose');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const chatbotSend = document.getElementById('chatbotSend');
+
+        // Estado del chatbot
+        let isChatbotOpen = false;
+        let isWaitingForResponse = false;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Abrir automáticamente después de un tiempo si está configurado
+            if (chatbotConfig.autoOpen) {
+                setTimeout(() => {
+                    openChatbot();
+                }, chatbotConfig.autoOpenDelay);
+            }
+
+            // Event listeners
+            chatbotToggle.addEventListener('click', toggleChatbot);
+            chatbotClose.addEventListener('click', closeChatbot);
+            chatbotSend.addEventListener('click', sendMessage);
+            chatbotInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Guardar mensaje de bienvenida en el historial
+            addMessageToHistory('bot', chatbotConfig.welcomeMessage);
+        });
+
+        // Funciones del chatbot
+        function toggleChatbot() {
+            if (isChatbotOpen) {
+                closeChatbot();
+            } else {
+                openChatbot();
+            }
+        }
+
+        function openChatbot() {
+            chatbotContainer.style.display = 'flex';
+            isChatbotOpen = true;
+            // Enfocar el input cuando se abre
+            setTimeout(() => {
+                chatbotInput.focus();
+            }, 300);
+        }
+
+        function closeChatbot() {
+            chatbotContainer.style.display = 'none';
+            isChatbotOpen = false;
+        }
+
+        function sendMessage() {
+            const message = chatbotInput.value.trim();
+            if (message === '' || isWaitingForResponse) return;
+
+            // Agregar mensaje del usuario a la interfaz
+            addMessageToUI('user', message);
+            chatbotInput.value = '';
+
+            // Mostrar indicador de escritura
+            showTypingIndicator();
+
+            // Enviar mensaje al webhook de N8N
+            sendToWebhook(message);
+        }
+
+        function addMessageToUI(sender, message) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+            messageElement.textContent = message;
+
+            chatbotMessages.appendChild(messageElement);
+            scrollToBottom();
+
+            // Agregar al historial
+            addMessageToHistory(sender, message);
+        }
+
+        function addMessageToHistory(sender, message) {
+            // Aquí podrías guardar el historial en localStorage o enviarlo a tu servidor
+            // Por ahora solo lo mantenemos en memoria
+            if (!window.chatHistory) {
+                window.chatHistory = [];
+            }
+            window.chatHistory.push({
+                sender: sender,
+                message: message,
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        function showTypingIndicator() {
+            isWaitingForResponse = true;
             
-            <!--
-            <div>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3282.6737871865726!2d-58.40096712408693!3d-34.63768305929302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccb142487634d%3A0xf84aa18c47d2df34!2sAv.%20Colonia%20155%2C%20C1437%20JNC%2C%20Cdad.%20Aut%C3%B3noma%20de%20Buenos%20Aires!5e0!3m2!1ses-419!2sar!4v1727719968391!5m2!1ses-419!2sar" width="100" height="100" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-                -->
-        </footer>
-        <script src="./js/script.js"></script>
-    </body>
+            const typingElement = document.createElement('div');
+            typingElement.classList.add('typing-indicator');
+            typingElement.id = 'typingIndicator';
+            
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('typing-dot');
+                typingElement.appendChild(dot);
+            }
+            
+            chatbotMessages.appendChild(typingElement);
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+            isWaitingForResponse = false;
+        }
+
+        function scrollToBottom() {
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        function generateSessionId() {
+            // Generar un ID de sesión único
+            return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        }
+
+        function sendToWebhook(message) {
+            // Preparar datos para enviar al webhook
+            const requestData = {
+                sessionId: chatbotConfig.sessionId,
+                message: message,
+                timestamp: new Date().toISOString()
+            };
+
+            // Enviar solicitud al webhook de N8N
+            fetch(chatbotConfig.webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
+            .then(data => {
+                hideTypingIndicator();
+                
+                // Procesar la respuesta del webhook
+                if (data && data.response) {
+                    addMessageToUI('bot', data.response);
+                } else {
+                    addMessageToUI('bot', 'Lo siento, no pude procesar tu solicitud. Por favor, intenta de nuevo.');
+                }
+            })
+            .catch(error => {
+                console.error('Error al enviar mensaje:', error);
+                hideTypingIndicator();
+                addMessageToUI('bot', 'Lo siento, hubo un problema de conexión. Por favor, intenta de nuevo más tarde.');
+            });
+        }
+
+        // Función para simular respuesta si no hay webhook configurado
+        function simulateResponse(userMessage) {
+            hideTypingIndicator();
+            
+            // Respuestas predefinidas para demostración
+            const responses = {
+                'hola': '¡Hola! ¿Cómo estás?',
+                'como estas': '¡Estoy bien, gracias por preguntar! ¿En qué puedo ayudarte?',
+                'que puedes hacer': 'Puedo responder preguntas básicas y ayudarte con información general. También puedo conectarme con un agente humano si necesitas ayuda más específica.',
+                'gracias': '¡De nada! Estoy aquí para ayudarte cuando lo necesites.',
+                'adios': '¡Hasta luego! Que tengas un buen día.'
+            };
+            
+            const lowerMessage = userMessage.toLowerCase();
+            let response = 'Entiendo. ¿Te puedo ayudar en algo más?';
+            
+            for (const [key, value] of Object.entries(responses)) {
+                if (lowerMessage.includes(key)) {
+                    response = value;
+                    break;
+                }
+            }
+            
+            addMessageToUI('bot', response);
+        }
+    </script>
+</body>
 </html>
