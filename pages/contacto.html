@@ -1,0 +1,174 @@
+<!DOCTYPE html> 
+<html lang="es"> <!--configuración del lenguaje-->
+     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--va a ser una página responsive-->
+        <title>Contacto</title>
+        <!--favicon ícono-->
+        <link rel="shortcut icon" href="../favicon.png" type="image/x-icon">
+        <script src="https://kit.fontawesome.com/12ff1418cb.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../css/estilos.css">
+    </head>
+    <body id="body">
+        <header class="header">
+            <a href="../index.html">
+                <img src="../assets/img/logo.png" alt="Logo de Rodrigo Alcon Quintanilha" width="95px" class="boxLogo">
+            </a>
+            <nav class="navHeader">
+                <ul class="ulHeader">
+                    <li class="listaItem"><a class="linkHeader" href="../index.html">Inicio</a></li>
+                    <li class="listaItem"><a class="linkHeader" href="../index.html#proyecto">Proyecto</a></li>
+                    <li class="listaItem"><a class="linkHeader" href="../pages/galeria.html">Realidad Aumentada</a></li>
+                    <li class="listaItem"><a class="linkHeader" href="#sobre">Sobre</a></li>
+                    <li class="listaItem"><a class="linkHeader" href="#contacto">Contacto</a></li>
+                    <li class="listaItem"><a class="linkHeader" href="https://museomoderno.org/" target="_blank"><img class="logoModerno" src="../assets/img/museo-moderno-footer.jpg"></a></li>
+                </ul>
+            </nav>
+        </header>
+        <main id="sobre" class="boxContacto">
+            <section class="textPadding">
+            <h2>Sobre</h2>
+            <p class="textJustified">
+                <span class="interlineado"><span class="fuenteCursiva">Restauración Aumentada </span>es un proyecto ideado por Diamela Canosa y desarrollado por Rodrigo Alcon Quintanilha. Las imágenes del patrimonio del Museo de Arte Moderno de Buenos Aires utilizadas en el proyecto fueron realizadas por Viviana Gil.</span>
+            </p>
+            <p class="textJustified">
+                <span class="interlineado"><b>Diamela Canosa</b> es Licenciada en Conservación y Restauración de Bienes Culturales, egresada de la Universidad Nacional de las Artes. Conservadora del departamento de Conservación del Museo de Arte Moderno de Buenos Aires, especializada en la conservación y restauración de colecciones de arte moderno y contemporáneo. Actualmente trabaja en la preservación y conservación de colecciones públicas y privadas de arte contemporáneo, y explora la aplicación de nuevas tecnologías a la conservación de arte.</span>
+            </p>
+            <p class="textJustified">
+                <span class="interlineado"><b>Rodrigo Alcon Quintanilha</b> es artista visual, diplomado en museología, fotógrafo profesional y montajista con experiencia en el Museo de Arte Moderno de Buenos Aires así como otros prestigiosos espacios culturales. Ha trabajado en la preservación y conservación de materiales históricos y en el montaje de exposiciones. Posee habilidades en conservación ambiental de piezas de arte, softwares de edición de imagen, video y sonido. Actualmente, explora lenguajes de programación, modelado 3D, robótica y realidad aumentada.</span>
+            </p>
+            <p class="textJustified">
+                <span class="interlineado"><b>Viviana Gil</b> es fotógrafa de obras de arte con más de 25 años de experiencia. Se especializa en investigación no invasiva de piezas de arte mediante estudios de fotografía infrarroja reflejada (IR), fotografía infrarroja transmitida (IRT) y fluorescencia ultravioleta. Desde el 2014 trabaja en el Área de Patrimonio del Museo de Arte Moderno de Buenos Aires.  Se encuentra desarrollando un proyecto de investigación experimental que aplica la astrofotografía al campo de la fotografía infrarroja de obras de arte. 
+                </span>
+            </p>
+            </section>
+           <h2 id="contacto">Contacto</h2>
+           <form>
+            <div>
+                <label for="nombre">Nombre: 
+                    <input type="text" placeholder="Ingrese su nombre" required name="nombre" id="nombre">
+                </label>
+                </div>
+                <div>
+                <label for="apellido">Apellido: 
+                    <input type="text" placeholder="Ingrese su apellido" required name="apellido" id="apellido">
+                </label>
+                </div>
+            <div>
+                <label>
+                    E-mail:
+                    <input type="email" placeholder="Ingrese su e-mail" name="email" id="email">
+                </label>               
+            </div>
+            <br>
+            Mensaje:
+            <div>
+            <label>
+                <textarea class="auto-resize-textarea" placeholder="Escriba su mensaje" name="message" id="mensaje"></textarea>
+            </label>
+            </div>
+            <div>
+                <input type="reset" value="Limpiar formulario">
+                <input type="submit" value="Enviar" id="botonEnviarFormulario">
+            </form>
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "IwHr2Zc8olDQGcRO9",
+      });
+   })();
+</script>
+            </div>
+            </form>
+            <!--<form>
+                <div>
+                    <label for="nombre">Nombre: 
+                        <input type="text" placeholder="Ingrese su nombre" required name="nombre" id="nombre">
+                    </label>
+                </div>
+                <div>
+                    <label for="apellido">Apellido: 
+                        <input type="text" placeholder="Ingrese su apellido" required name="apellido" id="apellido">
+                    </label>
+                </div>
+                <div>
+                    <label for="email">Email:
+                        <input type="email" id="email" required placeholder="Ingrese un email válido">
+                    </label>
+                </div>
+                <div>-->
+                    <!--<label for="provincia">Ingrese en qué provincia vive:
+                        <select name="provincia" id="provincia">
+                            <option value="1">Buenos Aires</option>
+                            <option value="2" selected>Capital Federal</option>
+                        </select>
+                    </label>-->
+                <!--</div>
+                <div>
+                    <textarea name="message" rows="10" cols="30">
+                    </textarea> 
+                </div>
+                <div>
+                    <input type="reset" value="Limpiar formulario">
+                    <input type="submit" value="Enviar formulario">
+                </div>
+            </form>-->
+           <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3282.6737871865726!2d-58.40096712408693!3d-34.63768305929302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccb142487634d%3A0xf84aa18c47d2df34!2sAv.%20Colonia%20155%2C%20C1437%20JNC%2C%20Cdad.%20Aut%C3%B3noma%20de%20Buenos%20Aires!5e0!3m2!1ses-419!2sar!4v1727719968391!5m2!1ses-419!2sar" width="200" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>-->
+        <div>
+            <a href="#body"> 
+                <!--<img src="" alt="arriba">-->
+                <!--<i class="fa-regular fa-hand-pointer"></i>-->
+                <!--<i class="fa-regular fa-circle-up"></i>-->
+                <i class="fa-solid fa-arrow-turn-up"></i>
+            </a>
+        </div>
+        </main>
+        <hr>
+        <footer class="footer">
+            <div>
+            <a href="../index.html">
+                <img src="../assets/img/logo.png" alt="Logo de Rodrigo Alcon Quintanilha" width="75px" class="boxLogo">
+            </a>
+            </div>
+            <div class=".boxContacto">
+                <section>
+                <address>
+                <p class="fuente15px"><span class="fuenteNegrita">Dirección:</span> Av. San Juan 350. San Telmo. Buenos Aires. C1147AAO. </p>
+                <p class="fuente15px"><span class="fuenteNegrita">Teléfono:</span> +54 011 4361-6919. </p>
+                <p class="fuente15px"><span class="fuenteNegrita">Correo electrónico:</span><a
+                    href="mailto:laboconservacion@gmail.com"> laboconservacion@gmail.com</a> </p>
+                </address>
+                </section>
+                <p class="fuenteNegrita fuente10px">Todos los derechos reservados 2025 </p>
+                    </div>
+                        <img src="../assets/img/logoMecenazgo.png" alt="Logo de Rodrigo Alcon Quintanilha" width="95px">
+                    <div>    
+                    </div>
+                        <img src="../assets/img/logoSantander.png" alt="Logo de Rodrigo Alcon Quintanilha" width="95px">
+                    <div>
+                    </div>
+                        <img src="../assets/img/logoBsAs.png" alt="Logo de Rodrigo Alcon Quintanilha" width="60px">
+                    <div>
+                    </div>
+                        <img src="../assets/img/logoModerno.png" alt="Logo de Rodrigo Alcon Quintanilha" width="57px">
+                    <div>
+                    </div>
+            <!--
+            <div>
+                <a href="https://www.instagram.com/arrobaescrito/" target="_blank">
+                <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+            -->
+            <!--
+            <div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3282.6737871865726!2d-58.40096712408693!3d-34.63768305929302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccb142487634d%3A0xf84aa18c47d2df34!2sAv.%20Colonia%20155%2C%20C1437%20JNC%2C%20Cdad.%20Aut%C3%B3noma%20de%20Buenos%20Aires!5e0!3m2!1ses-419!2sar!4v1727719968391!5m2!1ses-419!2sar" width="100" height="100" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                -->
+        </footer>
+        <script src="../script.js"></script>
+    </body>
+</html>
