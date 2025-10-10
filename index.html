@@ -15,6 +15,13 @@
         }
 
         body {
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+        
+        /* Elementos con MuseoModerno */
+        #chatbot-header h3,
+        #send-button,
+        .message.bot.welcome {
             font-family: 'MuseoModerno', cursive;
         }
 
@@ -116,6 +123,13 @@
             border-radius: 12px;
             max-width: 80%;
             word-wrap: break-word;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .message.bot.welcome {
+            font-family: 'MuseoModerno', cursive;
         }
 
         .message.bot {
@@ -159,7 +173,7 @@
             padding: 12px;
             border: 1px solid black;
             border-radius: 8px;
-            font-family: 'MuseoModerno', cursive;
+            font-family: 'Consolas', 'Courier New', monospace;
             font-size: 14px;
             outline: none;
         }
@@ -328,7 +342,7 @@
             <button id="close-button">&times;</button>
         </div>
         <div id="chatbot-messages">
-            <div class="message bot">
+            <div class="message bot welcome">
                 ¡Bienvenid@! Soy MAMBA, podés consultarme sobre todo lo relacionado con el Arte y su conservación. ¡Espero poder ayudarte!
             </div>
         </div>
