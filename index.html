@@ -73,32 +73,15 @@
         #chatbot-header {
             background-color: black;
             color: white;
-            padding: 0;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            min-height: 70px;
-        }
-        
-        #chatbot-header-content {
-            display: flex;
-            align-items: center;
-            flex: 1;
-            gap: 15px;
-            padding-left: 15px;
-        }
-        
-        #chatbot-logo {
-            height: 50px;
-            width: 50px;
-            object-fit: contain;
-            flex-shrink: 0;
         }
 
         #chatbot-header h3 {
             font-size: 18px;
             font-weight: 600;
-            flex: 1;
         }
         
         #close-button {
@@ -107,9 +90,9 @@
             color: white;
             font-size: 24px;
             cursor: pointer;
-            padding: 0 20px;
-            width: auto;
-            height: auto;
+            padding: 0;
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -341,10 +324,7 @@
     <!-- Contenedor del chatbot -->
     <div id="chatbot-container">
         <div id="chatbot-header">
-            <div id="chatbot-header-content">
-                <img id="chatbot-logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2ZmZWYwMCIvPjx0ZXh0IHg9IjMwIiB5PSIxNjAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMjAiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjMDAwMDAwIj5MQUI8L3RleHQ+PHJlY3QgeD0iMzAiIHk9IjE4MCIgd2lkdGg9IjI0MCIgaGVpZ2h0PSI1MCIgZmlsbD0iI2ZmZWYwMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjMiIHJ4PSIyNSIvPjx0ZXh0IHg9IjQwIiB5PSIyMTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiMwMDAwMDAiPkxBQk9SQVRPUklPIERFIENPTlNFUlZBQ0nDk048L3RleHQ+PC9zdmc+" alt="LAB Logo">
-                <h3>MAMBA ChatBot - Moderno/LAB</h3>
-            </div>
+            <h3>MAMBA ChatBot - Moderno/LAB</h3>
             <button id="close-button">&times;</button>
         </div>
         <div id="chatbot-messages">
