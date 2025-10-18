@@ -272,6 +272,31 @@
             background: #555;
         }
 
+        /* Estilos para links en mensajes */
+        .message a {
+            color: inherit;
+            text-decoration: underline;
+            word-break: break-all;
+        }
+        
+        .message.bot a {
+            color: #0066cc;
+        }
+        
+        .message.user a {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        
+        .message a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Soporte para emojis */
+        .message {
+            font-family: 'Consolas', 'Courier New', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji';
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             #chatbot-container {
@@ -526,11 +551,23 @@
             chatbotContainer.classList.remove('active');
         });
 
-        // Función para agregar mensajes
+        // Función para agregar mensajes con formato enriquecido
         function addMessage(text, type = 'bot') {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
-            messageDiv.textContent = text;
+            
+            // Procesar el texto para convertir URLs en links clickeables
+            let processedText = text;
+            
+            // Regex para detectar URLs
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            processedText = processedText.replace(urlRegex, (url) => {
+                return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">${url}</a>`;
+            });
+            
+            // Usar innerHTML en lugar de textContent para permitir HTML
+            messageDiv.innerHTML = processedText;
+            
             messagesArea.appendChild(messageDiv);
             messagesArea.scrollTop = messagesArea.scrollHeight;
             return messageDiv;
