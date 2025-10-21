@@ -1,0 +1,580 @@
+// chatbot.js - MAMBA ChatBot Modular
+(function() {
+    'use strict';
+
+    // Configuración
+    const WEBHOOK_URL = 'https://nonelementary-gentler-flora.ngrok-free.dev/webhook/1e361ea6-99ce-4ecc-9da4-f95acd9db618';
+    
+    // Inyectar HTML del chatbot
+    function injectChatbotHTML() {
+        const chatbotHTML = `
+            <!-- Botón flotante del chatbot -->
+            <div id="chatbot-button" data-tooltip="Conversar con MAMBA ChatBot"></div>
+
+            <!-- Contenedor del chatbot -->
+            <div id="chatbot-container">
+                <div id="chatbot-header">
+                    <h3>MAMBA ChatBot - Moderno/LAB</h3>
+                    <button id="close-button">&times;</button>
+                </div>
+                <div id="chatbot-messages">
+                    <div class="message bot welcome">
+                        ¡Bienvenid@! Soy MAMBA, podés consultarme sobre todo lo relacionado con el Arte y su conservación. ¡Espero poder ayudarte!
+                    </div>
+                </div>
+                <div id="chatbot-input-area">
+                    <input type="text" id="chatbot-input" placeholder="Escribí tu consulta..." />
+                    <button id="send-button">Enviar</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', chatbotHTML);
+    }
+
+    // Inyectar CSS del chatbot
+    function injectChatbotCSS() {
+        const style = document.createElement('style');
+        style.textContent = `
+            /* Botón flotante del chatbot */
+            #chatbot-button {
+                position: fixed;
+                bottom: 110px;
+                right: 23px;
+                width: 60px;
+                height: 60px;
+                background-color: white;
+                background-image: url('https://laboratoriodeconservacion.github.io/ra/assets/img/logo.png');
+                background-size: 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+                border: 4px solid black;
+                border-radius: 50%;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                transition: transform 0.2s, box-shadow 0.2s;
+                z-index: 9998;
+                overflow: hidden;
+            }
+
+            #chatbot-button:hover {
+                transform: scale(1.1);
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            }
+            
+            /* Tooltip */
+            #chatbot-button::before {
+                content: attr(data-tooltip);
+                position: absolute;
+                bottom: 70px;
+                right: 0;
+                background-color: black;
+                color: white;
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-family: 'MuseoModerno', cursive;
+                font-size: 13px;
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            }
+            
+            #chatbot-button:hover::before {
+                opacity: 1;
+            }
+            
+            #chatbot-button::after {
+                content: '';
+                position: absolute;
+                bottom: 62px;
+                right: 24px;
+                width: 0;
+                height: 0;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-top: 6px solid black;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+            }
+            
+            #chatbot-button:hover::after {
+                opacity: 1;
+            }
+
+            /* Contenedor del chatbot */
+            #chatbot-container {
+                position: fixed;
+                bottom: 100px;
+                right: 23px;
+                width: 380px;
+                height: 400px;
+                background-color: white;
+                border: 2px solid black;
+                border-radius: 16px;
+                display: none;
+                flex-direction: column;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+                z-index: 9999;
+                overflow: hidden;
+            }
+
+            #chatbot-container.active {
+                display: flex;
+            }
+
+            /* Header del chatbot */
+            #chatbot-header {
+                background-color: black;
+                color: white;
+                padding: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            #chatbot-header h3 {
+                color: white;
+                font-size: 18px;
+                font-weight: 600;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                font-family: 'MuseoModerno', cursive;
+            }
+            
+            #close-button {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 24px;
+                cursor: pointer;
+                padding: 0;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #close-button:hover {
+                opacity: 0.7;
+            }
+
+            /* Área de mensajes */
+            #chatbot-messages {
+                flex: 1;
+                padding: 20px;
+                overflow-y: auto;
+                background-color: #f9f9f9;
+            }
+
+            .message {
+                margin-bottom: 15px;
+                padding: 12px 16px;
+                border-radius: 12px;
+                max-width: 80%;
+                word-wrap: break-word;
+                font-family: 'Consolas', 'Courier New', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji';
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            
+            .message.bot.welcome {
+                font-family: 'MuseoModerno', cursive;
+            }
+
+            .message.bot {
+                background-color: white;
+                color: black;
+                border: 1px solid #e0e0e0;
+                align-self: flex-start;
+            }
+
+            .message.user {
+                background-color: black;
+                color: white;
+                margin-left: auto;
+                text-align: right;
+            }
+
+            .message.error {
+                background-color: #ffebee;
+                color: #c62828;
+                border: 1px solid #ef5350;
+                font-size: 14px;
+            }
+
+            .message.loading {
+                background-color: white;
+                color: black;
+                border: 1px solid #e0e0e0;
+                position: relative;
+            }
+
+            /* Animación para mensaje de carga */
+            .loading-dots::after {
+                content: '';
+                animation: loading-dots 1.5s infinite;
+            }
+
+            @keyframes loading-dots {
+                0%, 20% {
+                    content: '';
+                }
+                40% {
+                    content: '.';
+                }
+                60% {
+                    content: '..';
+                }
+                80%, 100% {
+                    content: '...';
+                }
+            }
+
+            /* Estilos para links en mensajes */
+            .message a {
+                color: inherit;
+                text-decoration: underline;
+                word-break: break-all;
+            }
+
+            .message.bot a {
+                color: #0066cc;
+            }
+
+            .message.user a {
+                color: #ffffff;
+                text-decoration: underline;
+            }
+
+            .message a:hover {
+                opacity: 0.8;
+            }
+
+            /* Área de input */
+            #chatbot-input-area {
+                padding: 15px;
+                border-top: 1px solid #e0e0e0;
+                display: flex;
+                gap: 10px;
+                background-color: white;
+            }
+
+            #chatbot-input {
+                flex: 1;
+                padding: 12px;
+                border: 1px solid black;
+                border-radius: 8px;
+                font-family: 'Consolas', 'Courier New', monospace;
+                font-size: 14px;
+                outline: none;
+            }
+
+            #chatbot-input::placeholder {
+                color: #999;
+            }
+
+            #send-button {
+                background-color: black;
+                color: white;
+                border: none;
+                padding: 12px 20px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-family: 'MuseoModerno', cursive;
+                font-weight: 600;
+                transition: opacity 0.2s;
+            }
+
+            #send-button:hover:not(:disabled) {
+                opacity: 0.8;
+            }
+
+            #send-button:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            /* Scrollbar personalizado */
+            #chatbot-messages::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            #chatbot-messages::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+
+            #chatbot-messages::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 3px;
+            }
+
+            #chatbot-messages::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+                #chatbot-container {
+                    width: 100vw;
+                    height: 90vh;
+                    right: 0;
+                    bottom: 0;
+                    border-radius: 0;
+                    border: none;
+                }
+
+                #chatbot-button {
+                    bottom: 20px;
+                    right: 20px;
+                    width: 56px;
+                    height: 56px;
+                    border-width: 3px;
+                }
+
+                #chatbot-header {
+                    min-height: 60px;
+                }
+                
+                #chatbot-header h3 {
+                    font-size: 16px;
+                }
+                
+                #close-button {
+                    padding: 0 16px;
+                    font-size: 22px;
+                }
+
+                #chatbot-messages {
+                    padding: 15px;
+                }
+
+                .message {
+                    font-size: 14px;
+                    max-width: 85%;
+                }
+
+                #chatbot-input-area {
+                    padding: 12px;
+                }
+
+                #chatbot-input {
+                    padding: 10px;
+                    font-size: 14px;
+                }
+
+                #send-button {
+                    padding: 10px 16px;
+                    font-size: 14px;
+                }
+            }
+
+            @media (min-width: 769px) and (max-width: 1024px) {
+                #chatbot-container {
+                    width: 360px;
+                    height: 400px;
+                }
+
+                #chatbot-button {
+                    bottom: 25px;
+                    right: 25px;
+                }
+            }
+
+            @media (min-width: 1025px) {
+                #chatbot-container {
+                    width: 400px;
+                    height: 500px;
+                }
+            }
+
+            /* Landscape mobile */
+            @media (max-width: 768px) and (orientation: landscape) {
+                #chatbot-container {
+                    height: 100vh;
+                }
+
+                #chatbot-messages {
+                    padding: 10px;
+                }
+
+                .message {
+                    margin-bottom: 10px;
+                    padding: 10px 14px;
+                }
+            }
+        `;
+        
+        document.head.appendChild(style);
+    }
+
+    // Variables globales del módulo
+    let chatbotButton, chatbotContainer, closeButton, messagesArea, inputField, sendButton;
+    let isProcessing = false;
+
+    // Función para agregar mensajes con formato enriquecido
+    function addMessage(text, type = 'bot') {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}`;
+        
+        // Procesar el texto para convertir URLs en links clickeables
+        let processedText = text;
+        
+        // Regex para detectar URLs
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        processedText = processedText.replace(urlRegex, (url) => {
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">${url}</a>`;
+        });
+        
+        // Usar innerHTML en lugar de textContent para permitir HTML
+        messageDiv.innerHTML = processedText;
+        
+        messagesArea.appendChild(messageDiv);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+        return messageDiv;
+    }
+
+    // Función especial para mensaje de carga con animación
+    function addMessageLoading(text) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message loading';
+        
+        const textSpan = document.createElement('span');
+        textSpan.textContent = text;
+        
+        const dotsSpan = document.createElement('span');
+        dotsSpan.className = 'loading-dots';
+        
+        messageDiv.appendChild(textSpan);
+        messageDiv.appendChild(dotsSpan);
+        
+        messagesArea.appendChild(messageDiv);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+        return messageDiv;
+    }
+
+    // Función para enviar mensaje al webhook
+    async function sendToWebhook(userMessage) {
+        isProcessing = true;
+        sendButton.disabled = true;
+        inputField.disabled = true;
+
+        // Agregar mensaje del usuario
+        addMessage(userMessage, 'user');
+
+        // Agregar indicador de carga
+        const loadingMsg = addMessageLoading('Procesando tu consulta');
+
+        try {
+            console.log('Enviando mensaje al webhook:', userMessage);
+            
+            const response = await fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: userMessage,
+                    timestamp: new Date().toISOString(),
+                    source: 'chatbot-widget'
+                })
+            });
+
+            // Remover mensaje de carga
+            loadingMsg.remove();
+
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status} - ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log('Respuesta del webhook:', data);
+
+            // Mostrar respuesta del servidor
+            if (data.response || data.message) {
+                addMessage(data.response || data.message, 'bot');
+            } else {
+                addMessage('Mensaje recibido correctamente. Pronto recibirás una respuesta.', 'bot');
+            }
+
+        } catch (error) {
+            console.error('Error al comunicarse con N8N:', error);
+            loadingMsg.remove();
+            
+            // Mensaje de error detallado
+            let errorMessage = 'Error al enviar el mensaje:\n';
+            if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                errorMessage += 'No se pudo conectar con el servidor. Verifica:\n• La URL del webhook es correcta\n• El servidor N8N está activo\n• No hay problemas de CORS';
+            } else {
+                errorMessage += error.message;
+            }
+            
+            addMessage(errorMessage, 'error');
+        } finally {
+            isProcessing = false;
+            sendButton.disabled = false;
+            inputField.disabled = false;
+            inputField.focus();
+        }
+    }
+
+    // Inicializar el chatbot
+    function initChatbot() {
+        // Inyectar CSS y HTML
+        injectChatbotCSS();
+        injectChatbotHTML();
+
+        // Obtener referencias a elementos del DOM
+        chatbotButton = document.getElementById('chatbot-button');
+        chatbotContainer = document.getElementById('chatbot-container');
+        closeButton = document.getElementById('close-button');
+        messagesArea = document.getElementById('chatbot-messages');
+        inputField = document.getElementById('chatbot-input');
+        sendButton = document.getElementById('send-button');
+
+        // Event Listeners
+        chatbotButton.addEventListener('click', () => {
+            chatbotContainer.classList.add('active');
+            inputField.focus();
+        });
+
+        closeButton.addEventListener('click', () => {
+            chatbotContainer.classList.remove('active');
+        });
+
+        sendButton.addEventListener('click', () => {
+            const message = inputField.value.trim();
+            if (message && !isProcessing) {
+                sendToWebhook(message);
+                inputField.value = '';
+            }
+        });
+
+        inputField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !isProcessing) {
+                const message = inputField.value.trim();
+                if (message) {
+                    sendToWebhook(message);
+                    inputField.value = '';
+                }
+            }
+        });
+
+        console.log('MAMBA ChatBot inicializado correctamente');
+        console.log('Webhook URL:', WEBHOOK_URL);
+    }
+
+    // Inicializar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initChatbot);
+    } else {
+        initChatbot();
+    }
+
+})();
