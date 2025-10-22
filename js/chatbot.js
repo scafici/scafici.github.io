@@ -237,7 +237,7 @@
             #download-chat-button::before {
                 content: attr(data-tooltip);
                 position: absolute;
-                bottom: 35px;
+                bottom: 0px;
                 right: 0;
                 background-color: #333;
                 color: white;
@@ -622,7 +622,7 @@
         
         // Crear contenido del archivo
         let contenido = '===========================================\n';
-        contenido += 'CONVERSACIÓN - MAMBA ChatBot\n';
+        contenido += 'CONVERSACIÓN - MODERNO/LAB ChatBot\n';
         contenido += 'Museo Moderno - Laboratorio de Conservación\n';
         contenido += '===========================================\n\n';
         contenido += `Fecha de descarga: ${new Date().toLocaleString('es-AR')}\n`;
@@ -632,7 +632,7 @@
         // Agregar mensajes
         history.forEach((item, index) => {
             const fecha = new Date(item.timestamp).toLocaleString('es-AR');
-            const tipo = item.type === 'user' ? 'USUARIO' : 'MAMBA';
+            const tipo = item.type === 'user' ? 'USUARIO' : 'MODERNO';
             contenido += `[${fecha}] ${tipo}:\n${item.message}\n\n`;
             contenido += '-------------------------------------------\n\n';
         });
@@ -649,7 +649,7 @@
         
         // Nombre del archivo con fecha
         const fechaArchivo = new Date().toISOString().split('T')[0];
-        link.download = `conversacion-mamba-${fechaArchivo}.txt`;
+        link.download = `Conversacion-Moderno-ChatBot-${fechaArchivo}.txt`;
         
         document.body.appendChild(link);
         link.click();
