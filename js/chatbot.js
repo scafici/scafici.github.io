@@ -75,7 +75,7 @@
                 content: attr(data-tooltip);
                 position: absolute;
                 bottom: 70px;
-                right: 0;
+                right: 23px;
                 background-color: black;
                 color: white;
                 padding: 8px 12px;
