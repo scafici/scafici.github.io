@@ -61,4 +61,47 @@ emailjs.send(
     console.log('Error:', error);
 });
 }
+
+});
+
+// Botón volver arriba - Mostrar/Ocultar según scroll
+document.addEventListener('DOMContentLoaded', function() {
+    const btnVolverArriba = document.getElementById('btn-volver-arriba');
+    
+    if (btnVolverArriba) {
+        // Función para verificar si el usuario llegó al final de la página
+        function verificarPosicionScroll() {
+            // Altura total del documento
+            const alturaTotal = document.documentElement.scrollHeight;
+            // Altura visible de la ventana
+            const alturaVentana = window.innerHeight;
+            // Posición actual del scroll
+            const scrollActual = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Distancia desde el bottom (puedes ajustar este valor)
+            const distanciaDelFinal = alturaTotal - (scrollActual + alturaVentana);
+            
+            // Mostrar el botón cuando esté a 300px o menos del final
+            if (distanciaDelFinal <= 300) {
+                btnVolverArriba.classList.add('visible');
+            } else {
+                btnVolverArriba.classList.remove('visible');
+            }
+        }
+        
+        // Escuchar el evento scroll
+        window.addEventListener('scroll', verificarPosicionScroll);
+        
+        // Verificar al cargar la página
+        verificarPosicionScroll();
+        
+        // Smooth scroll al hacer click
+        btnVolverArriba.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 });
