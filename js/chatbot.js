@@ -237,8 +237,8 @@
             #download-chat-button::before {
                 content: attr(data-tooltip);
                 position: absolute;
-                bottom: 0px;
-                right: 0;
+                bottom: -20px;
+                right: -50;
                 background-color: #333;
                 color: white;
                 padding: 6px 10px;
