@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // CÓDIGO DEL BOTÓN VOLVER ARRIBA - Funciona en todas las páginas
     const btnVolverArriba = document.getElementById('btn-volver-arriba');
     
-    console.log('Botón volver arriba encontrado:', btnVolverArriba); // Debug
+    //console.log('Botón volver arriba encontrado:', btnVolverArriba); // Debug
     
     if (btnVolverArriba) {
         // Función para verificar scroll
@@ -79,10 +79,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Mostrar el botón cuando haya scroll hacia abajo (más de 300px)
             if (scrollActual > 300) {
                 btnVolverArriba.classList.add('visible');
-                console.log('Botón visible'); // Debug
+                //console.log('Botón visible'); // Debug
             } else {
                 btnVolverArriba.classList.remove('visible');
-                console.log('Botón oculto'); // Debug
+                //console.log('Botón oculto'); // Debug
             }
         }
         
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     } else {
-        console.warn('No se encontró el botón con id "btn-volver-arriba"');
+        //console.warn('No se encontró el botón con id "btn-volver-arriba"');
     }
 });
 
@@ -112,3 +112,4 @@ function limpiarFormulario() {
         formulario.reset(); 
     }
 }
+
