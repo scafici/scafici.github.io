@@ -114,8 +114,8 @@ h5{
 .btn-volver-arriba::before {
     content: 'Subir!';
     position: absolute;
-    bottom: 70px;
-    right: 0;
+    bottom: 35px;
+    right: 40;
     background-color: #333;
     color: white;
     padding: 6px 10px;
