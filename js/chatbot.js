@@ -54,7 +54,7 @@
                 background-size: 100%;
                 background-position: center;
                 background-repeat: no-repeat;
-                border: 4px solid black;
+                border: 0px solid white;
                 border-radius: 50%;
                 cursor: pointer;
                 display: flex;
