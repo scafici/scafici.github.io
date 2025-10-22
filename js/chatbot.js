@@ -16,7 +16,7 @@
             <!-- Contenedor del chatbot -->
             <div id="chatbot-container">
                 <div id="chatbot-header">
-                    <h3>MODERNO/LAB - ChatBot</h3>
+                    <h3>🎨 MODERNO/LAB - ChatBot</h3>
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <button id="clear-chat-button" title="Limpiar conversación" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">🗑️</button>
                         <button id="close-button">&times;</button>
@@ -192,6 +192,12 @@
             
             .message.bot.welcome {
                 font-family: 'MuseoModerno', cursive;
+                background-color: #EFE4B0 !important;
+                font-weight: bold;
+                max-width: calc(100% - 20px) !important;
+                margin-left: 10px;
+                margin-right: 10px;
+                border: 1px solid #d4c98a;
             }
 
             .message.bot {
