@@ -229,6 +229,58 @@
                 position: relative;
             }
 
+            /* Tooltip para botón de descargar */
+            #download-chat-button {
+                position: relative;
+            }
+            
+            #download-chat-button::before {
+                content: attr(data-tooltip);
+                position: absolute;
+                bottom: 35px;
+                right: 0;
+                background-color: #333;
+                color: white;
+                padding: 6px 10px;
+                border-radius: 6px;
+                font-family: 'MuseoModerno', cursive;
+                font-size: 12px;
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                z-index: 10000;
+            }
+            
+            #download-chat-button:hover::before {
+                opacity: 1;
+            }
+            
+            #download-chat-button::after {
+                content: '';
+                position: absolute;
+                bottom: 27px;
+                right: 8px;
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid #333;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+            }
+            
+            #download-chat-button:hover::after {
+                opacity: 1;
+            }
+            
+            #download-chat-button:hover,
+            #clear-chat-button:hover {
+                opacity: 0.7;
+            }
+
             /* Animación para mensaje de carga */
             .loading-dots::after {
                 content: '';
@@ -559,6 +611,54 @@
         }
     }
 
+    // Función para descargar conversación
+    function downloadChat() {
+        const history = loadHistoryFromStorage();
+        
+        if (history.length === 0) {
+            alert('No hay conversación para descargar.');
+            return;
+        }
+        
+        // Crear contenido del archivo
+        let contenido = '===========================================\n';
+        contenido += 'CONVERSACIÓN - MAMBA ChatBot\n';
+        contenido += 'Museo Moderno - Laboratorio de Conservación\n';
+        contenido += '===========================================\n\n';
+        contenido += `Fecha de descarga: ${new Date().toLocaleString('es-AR')}\n`;
+        contenido += `Total de mensajes: ${history.length}\n\n`;
+        contenido += '===========================================\n\n';
+        
+        // Agregar mensajes
+        history.forEach((item, index) => {
+            const fecha = new Date(item.timestamp).toLocaleString('es-AR');
+            const tipo = item.type === 'user' ? 'USUARIO' : 'MAMBA';
+            contenido += `[${fecha}] ${tipo}:\n${item.message}\n\n`;
+            contenido += '-------------------------------------------\n\n';
+        });
+        
+        contenido += '===========================================\n';
+        contenido += 'Fin de la conversación\n';
+        contenido += '===========================================\n';
+        
+        // Crear archivo y descargar
+        const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        
+        // Nombre del archivo con fecha
+        const fechaArchivo = new Date().toISOString().split('T')[0];
+        link.download = `conversacion-mamba-${fechaArchivo}.txt`;
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        console.log('Conversación descargada exitosamente');
+    }
+    
     // Función para enviar mensaje al webhook
     async function sendToWebhook(userMessage) {
         isProcessing = true;
@@ -662,6 +762,10 @@
 
         clearChatButton.addEventListener('click', clearChat);
 
+        // Event listener para descargar conversación
+        const downloadChatButton = document.getElementById('download-chat-button');
+        downloadChatButton.addEventListener('click', downloadChat);
+        
         sendButton.addEventListener('click', () => {
             const message = inputField.value.trim();
             if (message && !isProcessing) {
