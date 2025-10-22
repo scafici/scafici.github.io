@@ -78,12 +78,12 @@ h5{
 /* Botón volver arriba */
 .btn-volver-arriba {
     position: fixed;
-    bottom: 30px;
-    right: 100px;
-    width: 60px;
+    bottom: 15px;
+    right: 30px;
+    width: 45px;
     height: 60px;
     background-color: white;
-    background-image: url('./assets/img/FlechaModerno.png'); /* Reemplaza con la ruta de tu imagen */
+    background-image: url('../assets/img/FlechaModerno.png'); /* Reemplaza con la ruta de tu imagen */
     background-size: 70%;
     background-position: center;
     background-repeat: no-repeat;
