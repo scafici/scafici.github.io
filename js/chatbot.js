@@ -1,9 +1,11 @@
-// chatbot.js - MAMBA ChatBot Modular
+// chatbot.js - MAMBA ChatBot Modular con Persistencia
 (function() {
     'use strict';
 
     // Configuración
     const WEBHOOK_URL = 'https://nonelementary-gentler-flora.ngrok-free.dev/webhook/1e361ea6-99ce-4ecc-9da4-f95acd9db618';
+    const STORAGE_KEY = 'mamba_chatbot_history';
+    const STORAGE_STATE_KEY = 'mamba_chatbot_state';
     
     // Inyectar HTML del chatbot
     function injectChatbotHTML() {
@@ -15,7 +17,10 @@
             <div id="chatbot-container">
                 <div id="chatbot-header">
                     <h3>MAMBA ChatBot - Moderno/LAB</h3>
-                    <button id="close-button">&times;</button>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button id="clear-chat-button" title="Limpiar conversación" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">🗑️</button>
+                        <button id="close-button">&times;</button>
+                    </div>
                 </div>
                 <div id="chatbot-messages">
                     <div class="message bot welcome">
@@ -161,7 +166,8 @@
                 justify-content: center;
             }
 
-            #close-button:hover {
+            #close-button:hover,
+            #clear-chat-button:hover {
                 opacity: 0.7;
             }
 
@@ -415,11 +421,59 @@
     }
 
     // Variables globales del módulo
-    let chatbotButton, chatbotContainer, closeButton, messagesArea, inputField, sendButton;
+    let chatbotButton, chatbotContainer, closeButton, messagesArea, inputField, sendButton, clearChatButton;
     let isProcessing = false;
 
+    // Funciones de almacenamiento
+    function saveMessageToStorage(message, type) {
+        try {
+            const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            history.push({ message, type, timestamp: Date.now() });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+        } catch (e) {
+            console.error('Error guardando mensaje:', e);
+        }
+    }
+
+    function loadHistoryFromStorage() {
+        try {
+            const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            return history;
+        } catch (e) {
+            console.error('Error cargando historial:', e);
+            return [];
+        }
+    }
+
+    function clearHistory() {
+        try {
+            localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem(STORAGE_STATE_KEY);
+        } catch (e) {
+            console.error('Error limpiando historial:', e);
+        }
+    }
+
+    function saveChatState(isOpen) {
+        try {
+            localStorage.setItem(STORAGE_STATE_KEY, JSON.stringify({ isOpen }));
+        } catch (e) {
+            console.error('Error guardando estado:', e);
+        }
+    }
+
+    function loadChatState() {
+        try {
+            const state = JSON.parse(localStorage.getItem(STORAGE_STATE_KEY) || '{}');
+            return state;
+        } catch (e) {
+            console.error('Error cargando estado:', e);
+            return {};
+        }
+    }
+
     // Función para agregar mensajes con formato enriquecido
-    function addMessage(text, type = 'bot') {
+    function addMessage(text, type = 'bot', saveToStorage = true) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${type}`;
         
@@ -437,6 +491,12 @@
         
         messagesArea.appendChild(messageDiv);
         messagesArea.scrollTop = messagesArea.scrollHeight;
+        
+        // Guardar en localStorage (excepto mensajes de carga y bienvenida)
+        if (saveToStorage && type !== 'loading' && !messageDiv.classList.contains('welcome')) {
+            saveMessageToStorage(text, type);
+        }
+        
         return messageDiv;
     }
 
@@ -457,6 +517,39 @@
         messagesArea.appendChild(messageDiv);
         messagesArea.scrollTop = messagesArea.scrollHeight;
         return messageDiv;
+    }
+
+    // Función para restaurar historial
+    function restoreHistory() {
+        const history = loadHistoryFromStorage();
+        
+        // Limpiar mensajes actuales excepto el de bienvenida
+        const welcomeMsg = messagesArea.querySelector('.message.bot.welcome');
+        messagesArea.innerHTML = '';
+        if (welcomeMsg) {
+            messagesArea.appendChild(welcomeMsg);
+        }
+        
+        // Restaurar mensajes guardados
+        history.forEach(item => {
+            addMessage(item.message, item.type, false);
+        });
+    }
+
+    // Función para limpiar conversación
+    function clearChat() {
+        if (confirm('¿Estás seguro de que querés limpiar toda la conversación?')) {
+            clearHistory();
+            
+            // Limpiar área de mensajes
+            const welcomeMsg = messagesArea.querySelector('.message.bot.welcome');
+            messagesArea.innerHTML = '';
+            if (welcomeMsg) {
+                messagesArea.appendChild(welcomeMsg);
+            }
+            
+            console.log('Conversación limpiada');
+        }
     }
 
     // Función para enviar mensaje al webhook
@@ -534,19 +627,33 @@
         chatbotButton = document.getElementById('chatbot-button');
         chatbotContainer = document.getElementById('chatbot-container');
         closeButton = document.getElementById('close-button');
+        clearChatButton = document.getElementById('clear-chat-button');
         messagesArea = document.getElementById('chatbot-messages');
         inputField = document.getElementById('chatbot-input');
         sendButton = document.getElementById('send-button');
 
+        // Restaurar historial de conversación
+        restoreHistory();
+
+        // Restaurar estado del chat (abierto/cerrado)
+        const state = loadChatState();
+        if (state.isOpen) {
+            chatbotContainer.classList.add('active');
+        }
+
         // Event Listeners
         chatbotButton.addEventListener('click', () => {
             chatbotContainer.classList.add('active');
+            saveChatState(true);
             inputField.focus();
         });
 
         closeButton.addEventListener('click', () => {
             chatbotContainer.classList.remove('active');
+            saveChatState(false);
         });
+
+        clearChatButton.addEventListener('click', clearChat);
 
         sendButton.addEventListener('click', () => {
             const message = inputField.value.trim();
@@ -568,6 +675,7 @@
 
         console.log('MAMBA ChatBot inicializado correctamente');
         console.log('Webhook URL:', WEBHOOK_URL);
+        console.log('Historial restaurado con', loadHistoryFromStorage().length, 'mensajes');
     }
 
     // Inicializar cuando el DOM esté listo
