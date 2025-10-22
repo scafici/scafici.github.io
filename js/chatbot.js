@@ -50,7 +50,7 @@
                 width: 60px;
                 height: 60px;
                 background-color: white;
-                background-image: url('https://laboratoriodeconservacion.github.io/ra/assets/img/logo.png');
+                background-image: url('../assets/img/LogoChatBot.png');
                 background-size: 100%;
                 background-position: center;
                 background-repeat: no-repeat;
