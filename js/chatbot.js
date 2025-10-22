@@ -237,14 +237,14 @@
             #download-chat-button::before {
                 content: attr(data-tooltip);
                 position: absolute;
-                bottom: -20px;
+                bottom: -40px;
                 right: -50;
                 background-color: #333;
                 color: white;
                 padding: 6px 10px;
                 border-radius: 6px;
                 font-family: 'MuseoModerno', cursive;
-                font-size: 12px;
+                font-size: 14px;
                 white-space: nowrap;
                 opacity: 0;
                 pointer-events: none;
