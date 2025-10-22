@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
         function verificarPosicionScroll() {
             const scrollActual = window.pageYOffset || document.documentElement.scrollTop;
             
-            console.log('Scroll actual:', scrollActual); // Debug
+            //console.log('Scroll actual:', scrollActual); // Debug
             
             // Mostrar el botón cuando haya scroll hacia abajo (más de 300px)
             if (scrollActual > 300) {
@@ -112,4 +112,5 @@ function limpiarFormulario() {
         formulario.reset(); 
     }
 }
+
 
