@@ -110,6 +110,49 @@ h5{
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* Tooltip para botón volver arriba */
+.btn-volver-arriba::before {
+    content: 'Subir!';
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    background-color: #333;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-family: 'MuseoModerno', cursive;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+}
+
+.btn-volver-arriba:hover::before {
+    opacity: 1;
+}
+
+.btn-volver-arriba::after {
+    content: '';
+    position: absolute;
+    bottom: 62px;
+    right: 24px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #333;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.btn-volver-arriba:hover::after {
+    opacity: 1;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .btn-volver-arriba {
