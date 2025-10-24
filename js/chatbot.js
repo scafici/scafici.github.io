@@ -1295,8 +1295,8 @@
         
         function scheduleNextAnimation() {
             // Tiempo aleatorio entre 10 y 30 segundos
-            const minTime = 10000; // 10 segundos
-            const maxTime = 30000; // 30 segundos
+            const minTime = 5000; // 10 segundos
+            const maxTime = 10000; // 30 segundos
             const randomTime = Math.random() * (maxTime - minTime) + minTime;
             
             setTimeout(runRandomAnimation, randomTime);
@@ -1305,6 +1305,6 @@
         // Iniciar el ciclo de animaciones después de 5 segundos
         setTimeout(() => {
             scheduleNextAnimation();
-        }, 10000);
+        }, 5000);
     
 })();
