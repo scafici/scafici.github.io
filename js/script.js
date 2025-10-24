@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
             //console.log('Scroll actual:', scrollActual); // Debug
             
             // Mostrar el botón cuando haya scroll hacia abajo (más de 300px)
-            if (scrollActual > 400) {
+            if (scrollActual > 500) {
                 btnVolverArriba.classList.add('visible');
                 //console.log('Botón visible'); // Debug
             } else {
@@ -112,6 +112,7 @@ function limpiarFormulario() {
         formulario.reset(); 
     }
 }
+
 
 
 
