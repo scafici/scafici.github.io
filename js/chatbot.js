@@ -95,7 +95,7 @@
                 content: attr(data-tooltip);
                 position: absolute;
                 bottom: 17px;
-                right: -5px;
+                right: -6px;
                 background-color: black;
                 color: white;
                 padding: 8px 12px;
@@ -118,7 +118,7 @@
                 content: '';
                 position: absolute;
                 bottom: 62px;
-                right: 35px;
+                right: 30px;
                 width: 0;
                 height: 0;
                 border-left: 6px solid transparent;
