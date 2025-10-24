@@ -79,7 +79,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
                 transition: transform 0.4s, box-shadow 0.4s;
                 z-index: 9998;
                 overflow: hidden;
@@ -87,7 +87,7 @@
 
             #chatbot-button:hover {
                 transform: scale(1.1);
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+                box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
             }
             /*
             /* Tooltip */
@@ -95,13 +95,13 @@
                 content: attr(data-tooltip);
                 position: absolute;
                 bottom: 20px;
-                right: 1px;
+                right: -5px;
                 background-color: black;
                 color: white;
                 padding: 8px 12px;
                 border-radius: 6px;
                 font-family: 'MuseoModerno', cursive;
-                font-size: 13px;
+                font-size: 14px;
                 white-space: nowrap;
                 opacity: 0;
                 pointer-events: none;
