@@ -36,7 +36,7 @@
                 <div id="confirm-modal-overlay" class="confirm-modal-overlay">
                     <div id="confirm-modal" class="confirm-modal">
                         <div class="confirm-modal-header">
-                            <span class="confirm-modal-icon">❓</span>
+                            <span class="confirm-modal-icon">🗑️</span>
                             <h3>MODERNO/LAB ChatBot</h3>
                         </div>
                         <div class="confirm-modal-body">
@@ -692,7 +692,7 @@
             return {};
         }
     }
-
+    
     // Función para agregar mensajes con formato enriquecido
     function addMessage(text, type = 'bot', saveToStorage = true) {
         const messageDiv = document.createElement('div');
@@ -711,7 +711,25 @@
         messageDiv.innerHTML = processedText;
         
         messagesArea.appendChild(messageDiv);
-        messagesArea.scrollTop = messagesArea.scrollHeight;
+        
+        // Ajustar scroll según el tipo de mensaje
+        if (type === 'user') {
+            // Si es mensaje del usuario, hacer scroll hasta ese mensaje
+            setTimeout(() => {
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        } else if (type === 'bot') {
+            // Si es mensaje del bot, buscar el último mensaje del usuario
+            const userMessages = messagesArea.querySelectorAll('.message.user');
+            const lastUserMessage = userMessages[userMessages.length - 1];
+            
+            if (lastUserMessage) {
+                // Hacer scroll para mostrar el mensaje del usuario y el inicio de la respuesta
+                setTimeout(() => {
+                    lastUserMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+        }
         
         // Guardar en localStorage (excepto mensajes de carga y bienvenida)
         if (saveToStorage && type !== 'loading' && !messageDiv.classList.contains('welcome')) {
