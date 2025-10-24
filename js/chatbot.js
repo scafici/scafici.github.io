@@ -19,8 +19,8 @@
                     <h3>🎨 MODERNO/LAB - ChatBot</h3>
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <button id="download-chat-button" data-tooltip="Descargar conversación" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; position: relative;">📥</button>
-                        <button id="clear-chat-button" title="Limpiar conversación" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">🗑️</button>
-                        <button id="close-button">&times;</button>
+                        <button id="clear-chat-button" data-tooltip="Limpiar conversación" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">🗑️</button>
+                        <button id="close-button" data-tooltip="Cerrar ChatBot">&times;</button>
                     </div>
                 </div>
                 <div id="chatbot-messages">
@@ -66,7 +66,7 @@
                 width: 60px;
                 height: 60px;
                 background-color: white;
-                background-image: url('../assets/img/LogoChatBot.png');
+                background-image: url('../assets/img/Logo.png');
                 background-size: 100%;
                 background-position: center;
                 background-repeat: no-repeat;
