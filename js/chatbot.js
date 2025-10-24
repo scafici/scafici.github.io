@@ -11,7 +11,11 @@
     function injectChatbotHTML() {
         const chatbotHTML = `
             <!-- Botón flotante del chatbot -->
-            <div id="chatbot-button" data-tooltip="Conversar con MODERNO/LAB ChatBot"></div>
+            <div id="chatbot-button" data-tooltip="Conversar con MODERNO/LAB ChatBot">
+                <div id="thought-bubble" class="thought-bubble">
+                    <span id="thought-text"></span>
+                </div>
+            </div>
 
             <!-- Contenedor del chatbot -->
             <div id="chatbot-container">
@@ -128,6 +132,166 @@
             
             #chatbot-button:hover::after {
                 opacity: 1;
+            }
+
+            /* Burbuja de pensamiento */
+            .thought-bubble {
+                position: absolute;
+                bottom: 75px;
+                right: -10px;
+                background-color: white;
+                border: 3px solid black;
+                border-radius: 20px;
+                padding: 12px 18px;
+                min-width: 120px;
+                opacity: 0;
+                pointer-events: none;
+                z-index: 10001;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                transform-origin: bottom right;
+            }
+            
+            .thought-bubble::before {
+                content: '';
+                position: absolute;
+                bottom: -15px;
+                right: 20px;
+                width: 20px;
+                height: 20px;
+                background-color: white;
+                border: 3px solid black;
+                border-radius: 50%;
+                border-top: none;
+                border-left: none;
+            }
+            
+            .thought-bubble::after {
+                content: '';
+                position: absolute;
+                bottom: -25px;
+                right: 15px;
+                width: 12px;
+                height: 12px;
+                background-color: white;
+                border: 3px solid black;
+                border-radius: 50%;
+                border-top: none;
+                border-left: none;
+            }
+            
+            .thought-bubble.show {
+                animation: bubbleAppear 0.3s ease-out forwards;
+            }
+            
+            .thought-bubble.hide {
+                animation: bubbleDisappear 0.3s ease-in forwards;
+            }
+            
+            @keyframes bubbleAppear {
+                0% {
+                    opacity: 0;
+                    transform: scale(0) translateY(10px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+            }
+            
+            @keyframes bubbleDisappear {
+                0% {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(0) translateY(10px);
+                }
+            }
+            
+            #thought-text {
+                font-family: 'MuseoModerno', cursive;
+                font-size: 16px;
+                font-weight: 600;
+                color: black;
+                display: block;
+                text-align: center;
+            }
+            
+            /* Animación de sacudida */
+            @keyframes shake {
+                0%, 100% { transform: translateX(0) rotate(0deg); }
+                10% { transform: translateX(-3px) rotate(-2deg); }
+                20% { transform: translateX(3px) rotate(2deg); }
+                30% { transform: translateX(-3px) rotate(-2deg); }
+                40% { transform: translateX(3px) rotate(2deg); }
+                50% { transform: translateX(-3px) rotate(-2deg); }
+                60% { transform: translateX(3px) rotate(2deg); }
+                70% { transform: translateX(-3px) rotate(-2deg); }
+                80% { transform: translateX(3px) rotate(2deg); }
+                90% { transform: translateX(-3px) rotate(-2deg); }
+            }
+            
+            /* Animación de caída y rebote */
+            @keyframes fallAndBounce {
+                0% {
+                    transform: translateY(0) rotate(0deg);
+                    opacity: 1;
+                }
+                30% {
+                    transform: translateY(0) rotate(10deg);
+                }
+                50% {
+                    transform: translateY(calc(100vh + 100px)) rotate(180deg);
+                    opacity: 0.5;
+                }
+                51% {
+                    transform: translateY(calc(100vh + 100px)) rotate(180deg);
+                    opacity: 0;
+                }
+                52% {
+                    transform: translateY(-100px) rotate(180deg);
+                    opacity: 0;
+                }
+                70% {
+                    transform: translateY(0) rotate(360deg);
+                    opacity: 1;
+                }
+                80% {
+                    transform: translateY(-20px) rotate(360deg);
+                }
+                90% {
+                    transform: translateY(0) rotate(360deg);
+                }
+                95% {
+                    transform: translateY(-10px) rotate(360deg);
+                }
+                100% {
+                    transform: translateY(0) rotate(360deg);
+                    opacity: 1;
+                }
+            }
+            
+            .chatbot-button-shake {
+                animation: shake 0.5s ease-in-out;
+            }
+            
+            .chatbot-button-fall {
+                animation: fallAndBounce 2s ease-in-out;
+            }
+            
+            /* Responsive para burbuja */
+            @media (max-width: 768px) {
+                .thought-bubble {
+                    bottom: 70px;
+                    right: -5px;
+                    padding: 10px 15px;
+                    min-width: 100px;
+                }
+                
+                #thought-text {
+                    font-size: 14px;
+                }
             }
 
             /* Contenedor del chatbot */
@@ -1031,6 +1195,106 @@
         document.addEventListener('DOMContentLoaded', initChatbot);
     } else {
         initChatbot();
+
+        // ANIMACIONES DEL BOTÓN FLOTANTE
+        function typeText(element, text, speed = 150) {
+            return new Promise((resolve) => {
+                let index = 0;
+                element.textContent = '';
+                
+                const interval = setInterval(() => {
+                    if (index < text.length) {
+                        element.textContent += text[index];
+                        index++;
+                    } else {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, speed);
+            });
+        }
+        
+        async function showThoughtBubble() {
+            const bubble = document.getElementById('thought-bubble');
+            const text = document.getElementById('thought-text');
+            
+            if (!bubble || !text) return;
+            
+            // Mostrar burbuja
+            bubble.classList.add('show');
+            
+            // Esperar que aparezca
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            // Escribir texto
+            await typeText(text, 'ZzZzZzZz...');
+            
+            // Esperar un poco antes de ocultar
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Ocultar burbuja
+            bubble.classList.remove('show');
+            bubble.classList.add('hide');
+            
+            await new Promise(resolve => setTimeout(resolve, 300));
+            bubble.classList.remove('hide');
+        }
+        
+        function shakeAndFallButton() {
+            const button = chatbotButton;
+            
+            if (!button) return;
+            
+            // Sacudir
+            button.classList.add('chatbot-button-shake');
+            
+            setTimeout(() => {
+                button.classList.remove('chatbot-button-shake');
+                
+                // Esperar un poco y luego caer
+                setTimeout(() => {
+                    button.classList.add('chatbot-button-fall');
+                    
+                    setTimeout(() => {
+                        button.classList.remove('chatbot-button-fall');
+                    }, 2000);
+                }, 200);
+            }, 500);
+        }
+        
+        async function runRandomAnimation() {
+            // No ejecutar si el chat está abierto
+            if (chatbotContainer.classList.contains('active')) {
+                scheduleNextAnimation();
+                return;
+            }
+            
+            // Decidir aleatoriamente qué animación ejecutar
+            const animations = [
+                showThoughtBubble,
+                shakeAndFallButton
+            ];
+            
+            const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+            await randomAnimation();
+            
+            // Programar la siguiente animación
+            scheduleNextAnimation();
+        }
+        
+        function scheduleNextAnimation() {
+            // Tiempo aleatorio entre 10 y 30 segundos
+            const minTime = 10000; // 10 segundos
+            const maxTime = 30000; // 30 segundos
+            const randomTime = Math.random() * (maxTime - minTime) + minTime;
+            
+            setTimeout(runRandomAnimation, randomTime);
+        }
+        
+        // Iniciar el ciclo de animaciones después de 5 segundos
+        setTimeout(() => {
+            scheduleNextAnimation();
+        }, 10000);
     }
 
 })();
