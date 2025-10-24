@@ -12,11 +12,10 @@
         const chatbotHTML = `
             <!-- Botón flotante del chatbot -->
             <div id="chatbot-button" data-tooltip="Conversar con MODERNO/LAB ChatBot">
+            </div>
                 <div id="thought-bubble" class="thought-bubble">
                     <span id="thought-text"></span>
                 </div>
-            </div>
-
             <!-- Contenedor del chatbot -->
             <div id="chatbot-container">
                 <div id="chatbot-header">
@@ -74,7 +73,7 @@
                 background-size: 100%;
                 background-position: center;
                 background-repeat: no-repeat;
-                border: 3px solid white;
+                border: 4px solid black;
                 border-radius: 50%;
                 cursor: pointer;
                 display: flex;
@@ -95,8 +94,8 @@
             #chatbot-button::before {
                 content: attr(data-tooltip);
                 position: absolute;
-                bottom: 70px;
-                right: 23px;
+                bottom: 10px;
+                right: 1px;
                 background-color: black;
                 color: white;
                 padding: 8px 12px;
@@ -136,9 +135,9 @@
 
             /* Burbuja de pensamiento */
             .thought-bubble {
-                position: absolute;
-                bottom: 75px;
-                right: -10px;
+                position: fixed;
+                bottom: 185px; /* Ajustado para estar arriba del botón */
+                right: 23px;
                 background-color: white;
                 border: 3px solid black;
                 border-radius: 20px;
@@ -146,16 +145,17 @@
                 min-width: 120px;
                 opacity: 0;
                 pointer-events: none;
-                z-index: 10001;
+                z-index: 9999;
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                transform-origin: bottom right;
+                transform-origin: bottom center;
             }
             
             .thought-bubble::before {
                 content: '';
                 position: absolute;
                 bottom: -15px;
-                right: 20px;
+                left: 50%;
+                transform: translateX(-50%);
                 width: 20px;
                 height: 20px;
                 background-color: white;
@@ -168,8 +168,9 @@
             .thought-bubble::after {
                 content: '';
                 position: absolute;
-                bottom: -25px;
-                right: 15px;
+                bottom: -28px;
+                left: 50%;
+                transform: translateX(-50%);
                 width: 12px;
                 height: 12px;
                 background-color: white;
@@ -216,6 +217,28 @@
                 color: black;
                 display: block;
                 text-align: center;
+                white-space: nowrap;
+            }
+            
+            /* Responsive para burbuja */
+            @media (max-width: 768px) {
+                .thought-bubble {
+                    bottom: 90px;
+                    right: 20px;
+                    padding: 10px 15px;
+                    min-width: 100px;
+                }
+                
+                #thought-text {
+                    font-size: 14px;
+                }
+            }
+            
+            @media (min-width: 769px) and (max-width: 1024px) {
+                .thought-bubble {
+                    bottom: 95px;
+                    right: 25px;
+                }
             }
             
             /* Animación de sacudida */
@@ -280,20 +303,6 @@
                 animation: fallAndBounce 2s ease-in-out;
             }
             
-            /* Responsive para burbuja */
-            @media (max-width: 768px) {
-                .thought-bubble {
-                    bottom: 70px;
-                    right: -5px;
-                    padding: 10px 15px;
-                    min-width: 100px;
-                }
-                
-                #thought-text {
-                    font-size: 14px;
-                }
-            }
-
             /* Contenedor del chatbot */
             #chatbot-container {
                 position: fixed;
