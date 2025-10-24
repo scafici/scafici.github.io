@@ -63,21 +63,21 @@
                 position: fixed;
                 bottom: 110px;
                 right: 23px;
-                width: 60px;
-                height: 60px;
+                width: 80px;
+                height: 80px;
                 background-color: white;
                 background-image: url('../assets/img/logo.png');
                 background-size: 100%;
                 background-position: center;
                 background-repeat: no-repeat;
-                border: 0px solid white;
+                border: 3px solid white;
                 border-radius: 50%;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                transition: transform 0.2s, box-shadow 0.2s;
+                transition: transform 0.4s, box-shadow 0.4s;
                 z-index: 9998;
                 overflow: hidden;
             }
@@ -104,6 +104,7 @@
                 pointer-events: none;
                 transition: opacity 0.3s;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                z-index: 10000;
             }
             
             #chatbot-button:hover::before {
