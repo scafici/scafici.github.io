@@ -89,57 +89,14 @@
                 transform: scale(1.1);
                 box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
             }
-            /*
-            /* Tooltip */
-            #chatbot-button::before {
-                content: attr(data-tooltip);
-                position: absolute;
-                bottom: 17px;
-                right: -6px;
-                background-color: black;
-                color: white;
-                padding: 8px 12px;
-                border-radius: 6px;
-                font-family: 'MuseoModerno', cursive;
-                font-size: 14px;
-                white-space: nowrap;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-                z-index: 10000;
-            }
             
-            #chatbot-button:hover::before {
-                opacity: 1;
-            }
-            
-            #chatbot-button::after {
-                content: '';
-                position: absolute;
-                bottom: 62px;
-                right: 30px;
-                width: 0;
-                height: 0;
-                border-left: 6px solid transparent;
-                border-right: 6px solid transparent;
-                border-top: 6px solid black;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s;
-            }
-            
-            #chatbot-button:hover::after {
-                  opacity: 1;
-            }
-            */
-            /* Burbuja de pensamiento */
+              /* Burbuja de pensamiento */
             .thought-bubble {
                 position: fixed;
-                bottom: 205px; /* Ajustado para estar arriba del botón */
-                right: 30px;
+                bottom: 185px; /* Ajustado para estar arriba del botón */
+                right: 23px;
                 background-color: white;
-                border: 4px groove black;
+                border: 3px solid black;
                 border-radius: 20px;
                 padding: 12px 18px;
                 min-width: 120px;
@@ -159,7 +116,7 @@
                 width: 20px;
                 height: 20px;
                 background-color: white;
-                border: 4px groove black;
+                border: 3px solid black;
                 border-radius: 50%;
                 border-top: none;
                 border-left: none;
@@ -174,18 +131,18 @@
                 width: 12px;
                 height: 12px;
                 background-color: white;
-                border: 4px groove black;
+                border: 3px solid black;
                 border-radius: 50%;
                 border-top: none;
                 border-left: none;
             }
             
             .thought-bubble.show {
-                animation: bubbleAppear 0.5s ease-out forwards;
+                animation: bubbleAppear 0.3s ease-out forwards;
             }
             
             .thought-bubble.hide {
-                animation: bubbleDisappear 0.5s ease-in forwards;
+                animation: bubbleDisappear 0.3s ease-in forwards;
             }
             
             @keyframes bubbleAppear {
