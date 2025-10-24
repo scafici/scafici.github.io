@@ -8,7 +8,15 @@
     const STORAGE_STATE_KEY = 'mamba_chatbot_state';
     
     // Inyectar HTML del chatbot
-    function injectChatbotHTML() {
+        function injectChatbotHTML() {
+
+            // Cargar jsPDF si no está cargado
+            if (!window.jspdf) {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+                document.head.appendChild(script);
+            }
+        
         const chatbotHTML = `
             <!-- Botón flotante del chatbot -->
             <div id="chatbot-button" data-tooltip="¡ChatBot!">
@@ -965,7 +973,8 @@
         });
     }
 
-    // Función para descargar conversación
+    /* 
+    // Función para descargar conversación en TXT
     function downloadChat() {
         const history = loadHistoryFromStorage();
         
@@ -1011,6 +1020,165 @@
         URL.revokeObjectURL(url);
         
         //console.log('Conversación descargada exitosamente');
+    }
+    */
+
+    // Función para descargar conversación en PDF
+    function downloadChat() {
+        const history = loadHistoryFromStorage();
+        
+        if (history.length === 0) {
+            alert('No hay conversación para descargar.');
+            return;
+        }
+        
+        // Verificar que jsPDF esté cargado
+        if (!window.jspdf) {
+            alert('Cargando generador de PDF... Por favor, intenta nuevamente en un momento.');
+            return;
+        }
+        
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        // Configuración de colores
+        const colorNegro = [0, 0, 0];
+        const colorGris = [100, 100, 100];
+        const colorAmarillo = [239, 228, 176]; // #EFE4B0
+        
+        let y = 20; // Posición vertical inicial
+        const margenIzq = 20;
+        const margenDer = 190;
+        const anchoTexto = margenDer - margenIzq;
+        const lineHeight = 7;
+        
+        // Función auxiliar para verificar si necesitamos nueva página
+        function checkNewPage(necesitaAltura) {
+            if (y + necesitaAltura > 280) {
+                doc.addPage();
+                y = 20;
+                return true;
+            }
+            return false;
+        }
+        
+        // Función para dividir texto largo
+        function splitText(text, maxWidth) {
+            return doc.splitTextToSize(text, maxWidth);
+        }
+        
+        // ENCABEZADO
+        doc.setFillColor(...colorNegro);
+        doc.rect(0, 0, 210, 40, 'F');
+        
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(20);
+        doc.setFont('helvetica', 'bold');
+        doc.text('CONVERSACIÓN - MODERNO/LAB ChatBot', 105, 15, { align: 'center' });
+        
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Museo Moderno - Laboratorio de Conservación', 105, 25, { align: 'center' });
+        
+        doc.setFontSize(10);
+        doc.text(`Descargado: ${new Date().toLocaleString('es-AR')}`, 105, 33, { align: 'center' });
+        
+        y = 50;
+        
+        // INFO GENERAL
+        doc.setTextColor(...colorNegro);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`Total de mensajes: ${history.length}`, margenIzq, y);
+        y += 10;
+        
+        // Línea separadora
+        doc.setDrawColor(...colorGris);
+        doc.line(margenIzq, y, margenDer, y);
+        y += 10;
+        
+        // MENSAJES
+        history.forEach((item, index) => {
+            const fecha = new Date(item.timestamp).toLocaleString('es-AR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            const tipo = item.type === 'user' ? 'USUARIO' : 'MODERNO/LAB ChatBot';
+            const esUsuario = item.type === 'user';
+            
+            // Verificar espacio necesario (aproximado)
+            const lineasMensaje = splitText(item.message, anchoTexto - 10);
+            const alturaRequerida = 15 + (lineasMensaje.length * lineHeight) + 5;
+            checkNewPage(alturaRequerida);
+            
+            // Cabecera del mensaje
+            if (esUsuario) {
+                doc.setFillColor(0, 0, 0);
+                doc.setTextColor(255, 255, 255);
+            } else {
+                doc.setFillColor(...colorAmarillo);
+                doc.setTextColor(...colorNegro);
+            }
+            
+            doc.roundedRect(margenIzq, y, anchoTexto, 8, 2, 2, 'F');
+            
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'bold');
+            doc.text(`${tipo} - ${fecha}`, margenIzq + 3, y + 5.5);
+            
+            y += 10;
+            
+            // Contenido del mensaje
+            doc.setTextColor(...colorNegro);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            
+            // Fondo del mensaje
+            const alturaContenido = lineasMensaje.length * lineHeight + 4;
+            doc.setFillColor(250, 250, 250);
+            doc.roundedRect(margenIzq, y, anchoTexto, alturaContenido, 2, 2, 'F');
+            
+            // Texto del mensaje
+            lineasMensaje.forEach((linea, i) => {
+                if (checkNewPage(lineHeight)) {
+                    // Si cambiamos de página, redibujar el fondo
+                    doc.setFillColor(250, 250, 250);
+                    doc.roundedRect(margenIzq, y, anchoTexto, alturaContenido - (i * lineHeight), 2, 2, 'F');
+                }
+                doc.text(linea, margenIzq + 3, y + 5 + (i * lineHeight));
+            });
+            
+            y += alturaContenido + 8;
+            
+            // Línea separadora entre mensajes
+            if (index < history.length - 1) {
+                checkNewPage(5);
+                doc.setDrawColor(220, 220, 220);
+                doc.line(margenIzq + 5, y, margenDer - 5, y);
+                y += 8;
+            }
+        });
+        
+        // PIE DE PÁGINA EN TODAS LAS PÁGINAS
+        const totalPaginas = doc.internal.pages.length - 1;
+        doc.setFontSize(8);
+        doc.setTextColor(...colorGris);
+        doc.setFont('helvetica', 'italic');
+        
+        for (let i = 1; i <= totalPaginas; i++) {
+            doc.setPage(i);
+            doc.text(`Página ${i} de ${totalPaginas}`, 105, 290, { align: 'center' });
+            doc.text('Generado por MODERNO/LAB ChatBot - Restauración Aumentada', 105, 285, { align: 'center' });
+        }
+        
+        // Nombre del archivo con fecha
+        const fechaArchivo = new Date().toISOString().split('T')[0];
+        doc.save(`Conversacion-ModernoLab_ChatBot-${fechaArchivo}.pdf`);
+        
+        //console.log('Conversación descargada en PDF exitosamente');
     }
     
     // Función para enviar mensaje al webhook
