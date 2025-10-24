@@ -179,7 +179,7 @@
             #close-button:hover,
             #clear-chat-button:hover,
             #download-chat-button:hover {
-                opacity: 0.7;
+                opacity: 0.9;
             }
             
             /* Tooltips para todos los botones del header */
@@ -188,8 +188,8 @@
             #close-button::before {
                 content: attr(data-tooltip);
                 position: absolute;
-                bottom: 35px;
-                right: 0;
+                bottom: -55px;
+                right: -50;
                 background-color: #333;
                 color: white;
                 padding: 6px 10px;
@@ -199,7 +199,7 @@
                 white-space: nowrap;
                 opacity: 0;
                 pointer-events: none;
-                transition: opacity 0.3s;
+                transition: opacity 0.4s;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
                 z-index: 10000;
             }
@@ -294,58 +294,6 @@
                 color: black;
                 border: 1px solid #e0e0e0;
                 position: relative;
-            }
-
-            /* Tooltip para botón de descargar */
-            #download-chat-button {
-                position: relative;
-            }
-            
-            #download-chat-button::before {
-                content: attr(data-tooltip);
-                position: absolute;
-                bottom: -55px;
-                right: -50;
-                background-color: #333;
-                color: white;
-                padding: 6px 10px;
-                border-radius: 6px;
-                font-family: 'MuseoModerno', cursive;
-                font-size: 14px;
-                white-space: nowrap;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-                z-index: 10000;
-            }
-            
-            #download-chat-button:hover::before {
-                opacity: 1;
-            }
-            
-            #download-chat-button::after {
-                content: '';
-                position: absolute;
-                bottom: 27px;
-                right: 8px;
-                width: 0;
-                height: 0;
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-top: 5px solid #333;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s;
-            }
-            
-            #download-chat-button:hover::after {
-                opacity: 1;
-            }
-            
-            #download-chat-button:hover,
-            #clear-chat-button:hover {
-                opacity: 0.7;
             }
 
             /* Animación para mensaje de carga */
