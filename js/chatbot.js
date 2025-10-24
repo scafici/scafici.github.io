@@ -87,9 +87,9 @@
 
             #chatbot-button:hover {
                 transform: scale(1.1);
-                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
             }
-            
+            /*
             /* Tooltip */
             #chatbot-button::before {
                 content: attr(data-tooltip);
@@ -130,9 +130,9 @@
             }
             
             #chatbot-button:hover::after {
-                opacity: 1;
+                  opacity: 1;
             }
-
+            */
             /* Burbuja de pensamiento */
             .thought-bubble {
                 position: fixed;
@@ -181,11 +181,11 @@
             }
             
             .thought-bubble.show {
-                animation: bubbleAppear 0.5s ease-out forwards;
+                animation: bubbleAppear 1.0s ease-out forwards;
             }
             
             .thought-bubble.hide {
-                animation: bubbleDisappear 0.5s ease-in forwards;
+                animation: bubbleDisappear 1.5s ease-in forwards;
             }
             
             @keyframes bubbleAppear {
@@ -296,11 +296,11 @@
             }
             
             .chatbot-button-shake {
-                animation: shake 1.5s ease-in-out;
+                animation: shake 0.5s ease-in-out;
             }
             
             .chatbot-button-fall {
-                animation: fallAndBounce 4s ease-in-out;
+                animation: fallAndBounce 2s ease-in-out;
             }
             
             /* Contenedor del chatbot */
@@ -1295,8 +1295,8 @@
         
         function scheduleNextAnimation() {
             // Tiempo aleatorio entre 10 y 30 segundos
-            const minTime = 5000; // 10 segundos
-            const maxTime = 10000; // 30 segundos
+            const minTime = 10000; // 10 segundos
+            const maxTime = 30000; // 30 segundos
             const randomTime = Math.random() * (maxTime - minTime) + minTime;
             
             setTimeout(runRandomAnimation, randomTime);
@@ -1305,6 +1305,6 @@
         // Iniciar el ciclo de animaciones después de 5 segundos
         setTimeout(() => {
             scheduleNextAnimation();
-        }, 5000);
+        }, 10000);
     
 })();
