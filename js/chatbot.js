@@ -102,7 +102,7 @@
                 min-width: 120px;
                 opacity: 0;
                 pointer-events: none;
-                z-index: 9999;
+                z-index: 10000;
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
                 transform-origin: bottom center;
             }
