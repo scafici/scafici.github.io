@@ -66,7 +66,7 @@
                 width: 60px;
                 height: 60px;
                 background-color: white;
-                background-image: url('../assets/img/Logo.png');
+                background-image: url('../assets/img/logo.png');
                 background-size: 100%;
                 background-position: center;
                 background-repeat: no-repeat;
