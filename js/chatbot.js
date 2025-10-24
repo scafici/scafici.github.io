@@ -181,11 +181,11 @@
             }
             
             .thought-bubble.show {
-                animation: bubbleAppear 1.0s ease-out forwards;
+                animation: bubbleAppear 0.5s ease-out forwards;
             }
             
             .thought-bubble.hide {
-                animation: bubbleDisappear 1.5s ease-in forwards;
+                animation: bubbleDisappear 0.5s ease-in forwards;
             }
             
             @keyframes bubbleAppear {
