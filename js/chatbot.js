@@ -1195,6 +1195,8 @@
         document.addEventListener('DOMContentLoaded', initChatbot);
     } else {
         initChatbot();
+    }
+
 
         // ANIMACIONES DEL BOTÓN FLOTANTE
         function typeText(element, text, speed = 150) {
@@ -1295,6 +1297,5 @@
         setTimeout(() => {
             scheduleNextAnimation();
         }, 10000);
-    }
-
+    
 })();
