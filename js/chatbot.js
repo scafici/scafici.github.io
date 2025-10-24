@@ -11,7 +11,7 @@
     function injectChatbotHTML() {
         const chatbotHTML = `
             <!-- Botón flotante del chatbot -->
-            <div id="chatbot-button" data-tooltip="Conversar con MODERNO/LAB ChatBot">
+            <div id="chatbot-button" data-tooltip="¡ChatBot!">
             </div>
                 <div id="thought-bubble" class="thought-bubble">
                     <span id="thought-text"></span>
@@ -94,7 +94,7 @@
             #chatbot-button::before {
                 content: attr(data-tooltip);
                 position: absolute;
-                bottom: 10px;
+                bottom: 20px;
                 right: 1px;
                 background-color: black;
                 color: white;
@@ -136,10 +136,10 @@
             /* Burbuja de pensamiento */
             .thought-bubble {
                 position: fixed;
-                bottom: 185px; /* Ajustado para estar arriba del botón */
-                right: 23px;
+                bottom: 205px; /* Ajustado para estar arriba del botón */
+                right: 30px;
                 background-color: white;
-                border: 3px solid black;
+                border: 4px groove black;
                 border-radius: 20px;
                 padding: 12px 18px;
                 min-width: 120px;
@@ -159,7 +159,7 @@
                 width: 20px;
                 height: 20px;
                 background-color: white;
-                border: 3px solid black;
+                border: 4px groove black;
                 border-radius: 50%;
                 border-top: none;
                 border-left: none;
@@ -174,18 +174,18 @@
                 width: 12px;
                 height: 12px;
                 background-color: white;
-                border: 3px solid black;
+                border: 4px groove black;
                 border-radius: 50%;
                 border-top: none;
                 border-left: none;
             }
             
             .thought-bubble.show {
-                animation: bubbleAppear 0.3s ease-out forwards;
+                animation: bubbleAppear 0.5s ease-out forwards;
             }
             
             .thought-bubble.hide {
-                animation: bubbleDisappear 0.3s ease-in forwards;
+                animation: bubbleDisappear 0.5s ease-in forwards;
             }
             
             @keyframes bubbleAppear {
@@ -296,11 +296,11 @@
             }
             
             .chatbot-button-shake {
-                animation: shake 0.5s ease-in-out;
+                animation: shake 1.5s ease-in-out;
             }
             
             .chatbot-button-fall {
-                animation: fallAndBounce 2s ease-in-out;
+                animation: fallAndBounce 4s ease-in-out;
             }
             
             /* Contenedor del chatbot */
@@ -1238,7 +1238,7 @@
             await new Promise(resolve => setTimeout(resolve, 300));
             
             // Escribir texto
-            await typeText(text, 'ZzZzZzZz...');
+            await typeText(text, 'ZzZzZz...');
             
             // Esperar un poco antes de ocultar
             await new Promise(resolve => setTimeout(resolve, 1000));
