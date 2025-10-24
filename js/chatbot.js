@@ -19,8 +19,8 @@
                     <h3>🎨 MODERNO/LAB - ChatBot</h3>
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <button id="download-chat-button" data-tooltip="Descargar conversación" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; position: relative;">📥</button>
-                        <button id="clear-chat-button" data-tooltip="Limpiar conversación" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">🗑️</button>
-                        <button id="close-button" data-tooltip="Cerrar ChatBot">&times;</button>
+                        <button id="clear-chat-button" data-tooltip="Limpiar conversación" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; position: relative;">🗑️</button>
+                        <button id="close-button" data-tooltip="Cerrar ChatBot" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer; padding: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; position: relative;">&times;</button>
                     </div>
                 </div>
                 <div id="chatbot-messages">
@@ -149,8 +149,8 @@
             #chatbot-container.active {
                 display: flex;
             }
-
-            /* Header del chatbot */
+            
+             /* Header del chatbot */
             #chatbot-header {
                 background-color: black;
                 color: white;
@@ -159,7 +159,7 @@
                 justify-content: space-between;
                 align-items: center;
             }
-
+            
             #chatbot-header h3 {
                 color: white;
                 font-size: 18px;
@@ -169,23 +169,74 @@
                 font-family: 'MuseoModerno', cursive;
             }
             
-            #close-button {
-                background: none;
-                border: none;
-                color: white;
-                font-size: 24px;
-                cursor: pointer;
-                padding: 0;
-                width: 30px;
-                height: 30px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+            /* Estilos base para todos los botones del header */
+            #close-button,
+            #clear-chat-button,
+            #download-chat-button {
+                position: relative;
             }
-
+            
             #close-button:hover,
-            #clear-chat-button:hover {
+            #clear-chat-button:hover,
+            #download-chat-button:hover {
                 opacity: 0.7;
+            }
+            
+            /* Tooltips para todos los botones del header */
+            #download-chat-button::before,
+            #clear-chat-button::before,
+            #close-button::before {
+                content: attr(data-tooltip);
+                position: absolute;
+                bottom: 35px;
+                right: 0;
+                background-color: #333;
+                color: white;
+                padding: 6px 10px;
+                border-radius: 6px;
+                font-family: 'MuseoModerno', cursive;
+                font-size: 12px;
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                z-index: 10000;
+            }
+            
+            #download-chat-button:hover::before,
+            #clear-chat-button:hover::before,
+            #close-button:hover::before {
+                opacity: 1;
+            }
+            
+            /* Flechitas de los tooltips */
+            #download-chat-button::after,
+            #clear-chat-button::after,
+            #close-button::after {
+                content: '';
+                position: absolute;
+                bottom: 27px;
+                right: 8px;
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid #333;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+            }
+            
+            #download-chat-button:hover::after,
+            #clear-chat-button:hover::after,
+            #close-button:hover::after {
+                opacity: 1;
+            }
+            
+            /* Ajuste específico para el botón de cerrar (es más grande) */
+            #close-button::after {
+                right: 12px;
             }
 
             /* Área de mensajes */
