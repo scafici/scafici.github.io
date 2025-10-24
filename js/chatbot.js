@@ -94,7 +94,7 @@
             #chatbot-button::before {
                 content: attr(data-tooltip);
                 position: absolute;
-                bottom: 18px;
+                bottom: 17px;
                 right: -5px;
                 background-color: black;
                 color: white;
