@@ -118,7 +118,7 @@
                 content: '';
                 position: absolute;
                 bottom: 62px;
-                right: 24px;
+                right: 35px;
                 width: 0;
                 height: 0;
                 border-left: 6px solid transparent;
