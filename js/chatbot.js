@@ -179,7 +179,7 @@
             #close-button:hover,
             #clear-chat-button:hover,
             #download-chat-button:hover {
-                opacity: 0.9;
+                opacity: 1.0;
             }
             
             /* Tooltips para todos los botones del header */
@@ -189,7 +189,7 @@
                 content: attr(data-tooltip);
                 position: absolute;
                 bottom: -55px;
-                right: -50;
+                right: 0;
                 background-color: #333;
                 color: white;
                 padding: 6px 10px;
@@ -830,7 +830,7 @@
                 messagesArea.appendChild(welcomeMsg);
             }
             
-            console.log('Conversación limpiada');
+            //console.log('Conversación limpiada');
         });
     }
 
@@ -879,7 +879,7 @@
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
         
-        console.log('Conversación descargada exitosamente');
+        //console.log('Conversación descargada exitosamente');
     }
     
     // Función para enviar mensaje al webhook
@@ -895,7 +895,7 @@
         const loadingMsg = addMessageLoading('Procesando tu consulta');
 
         try {
-            console.log('Enviando mensaje al webhook:', userMessage);
+            //console.log('Enviando mensaje al webhook:', userMessage);
             
             const response = await fetch(WEBHOOK_URL, {
                 method: 'POST',
@@ -1007,9 +1007,22 @@
             }
         });
 
-        console.log('MAMBA ChatBot inicializado correctamente');
-        console.log('Webhook URL:', WEBHOOK_URL);
-        console.log('Historial restaurado con', loadHistoryFromStorage().length, 'mensajes');
+        // Cerrar chatbot con tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' || e.key === 'Esc') {
+                // Solo cerrar si el chatbot está abierto
+                if (chatbotContainer.classList.contains('active')) {
+                    // Verificar si no hay un modal abierto
+                    const modalOverlay = document.getElementById('confirm-modal-overlay');
+                    if (!modalOverlay || !modalOverlay.classList.contains('active')) {
+                        chatbotContainer.classList.remove('active');
+                        saveChatState(false);
+                        //console.log('Chatbot cerrado con ESC');
+                    }
+                }
+            }
+        });
+        
     }
 
     // Inicializar cuando el DOM esté listo
