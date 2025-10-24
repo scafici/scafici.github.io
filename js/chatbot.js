@@ -81,7 +81,7 @@
                 justify-content: center;
                 box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
                 transition: transform 0.4s, box-shadow 0.4s;
-                z-index: 9998;
+                z-index: 10000;
                 overflow: hidden;
             }
 
