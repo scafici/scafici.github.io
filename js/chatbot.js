@@ -32,6 +32,22 @@
                     <input type="text" id="chatbot-input" placeholder="Escribí tu consulta..." />
                     <button id="send-button">Enviar</button>
                 </div>
+                <!-- Modal de confirmación personalizado -->
+                <div id="confirm-modal-overlay" class="confirm-modal-overlay">
+                    <div id="confirm-modal" class="confirm-modal">
+                        <div class="confirm-modal-header">
+                            <span class="confirm-modal-icon">❓</span>
+                            <h3>MODERNO/LAB ChatBot</h3>
+                        </div>
+                        <div class="confirm-modal-body">
+                            <p>¿Estás seguro de que querés limpiar toda la conversación?</p>
+                        </div>
+                        <div class="confirm-modal-footer">
+                            <button id="confirm-modal-cancel" class="confirm-modal-btn confirm-modal-btn-cancel">Cancelar</button>
+                            <button id="confirm-modal-confirm" class="confirm-modal-btn confirm-modal-btn-confirm">Aceptar</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         `;
         
@@ -474,6 +490,152 @@
                     padding: 10px 14px;
                 }
             }
+
+            /* Modal de confirmación personalizado */
+            .confirm-modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.6);
+                display: none;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+                animation: fadeIn 0.2s ease-in-out;
+            }
+            
+            .confirm-modal-overlay.active {
+                display: flex;
+            }
+            
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+            
+            .confirm-modal {
+                background-color: white;
+                border: 2px solid black;
+                border-radius: 12px;
+                width: 90%;
+                max-width: 400px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+                animation: slideIn 0.3s ease-out;
+            }
+            
+            @keyframes slideIn {
+                from {
+                    transform: translateY(-50px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            
+            .confirm-modal-header {
+                background-color: black;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px 10px 0 0;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            
+            .confirm-modal-icon {
+                font-size: 28px;
+                line-height: 1;
+            }
+            
+            .confirm-modal-header h3 {
+                font-family: 'MuseoModerno', cursive;
+                font-size: 18px;
+                font-weight: 600;
+                margin: 0;
+                color: white;
+            }
+            
+            .confirm-modal-body {
+                padding: 30px 20px;
+                text-align: center;
+            }
+            
+            .confirm-modal-body p {
+                font-family: 'Consolas', 'Courier New', monospace;
+                font-size: 16px;
+                color: #333;
+                margin: 0;
+                line-height: 1.5;
+            }
+            
+            .confirm-modal-footer {
+                padding: 15px 20px 20px;
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+            }
+            
+            .confirm-modal-btn {
+                padding: 10px 24px;
+                border-radius: 8px;
+                font-family: 'MuseoModerno', cursive;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: opacity 0.2s, transform 0.1s;
+                border: none;
+            }
+            
+            .confirm-modal-btn:hover {
+                opacity: 0.8;
+            }
+            
+            .confirm-modal-btn:active {
+                transform: scale(0.95);
+            }
+            
+            .confirm-modal-btn-cancel {
+                background-color: #e0e0e0;
+                color: #333;
+            }
+            
+            .confirm-modal-btn-confirm {
+                background-color: black;
+                color: white;
+            }
+            
+            /* Responsive para modal */
+            @media (max-width: 768px) {
+                .confirm-modal {
+                    width: 85%;
+                    max-width: 320px;
+                }
+                
+                .confirm-modal-header h3 {
+                    font-size: 16px;
+                }
+                
+                .confirm-modal-body {
+                    padding: 25px 15px;
+                }
+                
+                .confirm-modal-body p {
+                    font-size: 14px;
+                }
+                
+                .confirm-modal-btn {
+                    padding: 8px 20px;
+                    font-size: 13px;
+                }
+            }
         `;
         
         document.head.appendChild(style);
@@ -595,9 +757,53 @@
         });
     }
 
+    // Función para mostrar modal de confirmación
+    function showConfirmModal(onConfirm) {
+        const overlay = document.getElementById('confirm-modal-overlay');
+        const confirmBtn = document.getElementById('confirm-modal-confirm');
+        const cancelBtn = document.getElementById('confirm-modal-cancel');
+        
+        overlay.classList.add('active');
+        
+        // Función para cerrar modal
+        function closeModal() {
+            overlay.classList.remove('active');
+            confirmBtn.removeEventListener('click', handleConfirm);
+            cancelBtn.removeEventListener('click', closeModal);
+            overlay.removeEventListener('click', handleOverlayClick);
+        }
+        
+        // Handler para confirmar
+        function handleConfirm() {
+            closeModal();
+            onConfirm();
+        }
+        
+        // Handler para click fuera del modal
+        function handleOverlayClick(e) {
+            if (e.target === overlay) {
+                closeModal();
+            }
+        }
+        
+        // Event listeners
+        confirmBtn.addEventListener('click', handleConfirm);
+        cancelBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', handleOverlayClick);
+        
+        // Cerrar con tecla Escape
+        function handleEscape(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+                document.removeEventListener('keydown', handleEscape);
+            }
+        }
+        document.addEventListener('keydown', handleEscape);
+    }
+    
     // Función para limpiar conversación
     function clearChat() {
-        if (confirm('¿Estás seguro de que querés limpiar toda la conversación?')) {
+        showConfirmModal(() => {
             clearHistory();
             
             // Limpiar área de mensajes
@@ -608,7 +814,7 @@
             }
             
             console.log('Conversación limpiada');
-        }
+        });
     }
 
     // Función para descargar conversación
